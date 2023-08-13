@@ -1,17 +1,7 @@
 import React, { useState } from 'react';
-import './main.css';
+import './styles/main.css';
 import Dropdown from '../components/dropdown';
-
-function generateSuggestions(input) {
-  const predefinedCities = [
-    'New York',
-    'Los Angeles',
-    'Chicago',
-    'Houston'
-  ];
-
-  return predefinedCities.filter(city => city.toLowerCase().startsWith(input.toLowerCase()));
-}
+import { majorWorldCities } from '../components/cities';
 
 function WeatherApp() {
   const [city, setCity] = useState('');
@@ -21,14 +11,10 @@ function WeatherApp() {
     const inputCity = event.target.value;
     setCity(inputCity);
 
-    const filteredSuggestions = generateSuggestions(inputCity);
+    const filteredSuggestions = majorWorldCities.filter(city =>
+      city.toLowerCase().startsWith(inputCity.toLowerCase())
+    );
     setSuggestions(filteredSuggestions);
-  };
-
-  const handleFetchWeather = () => {
-    // Implement the logic to fetch weather data based on the 'city' state here
-    // You can call your backend or API to retrieve the weather data
-    // Update the UI to display the weather data once fetched
   };
 
   const handleDropdownClickOutside = () => {
@@ -46,18 +32,17 @@ function WeatherApp() {
           value={city}
           onChange={handleCityChange}
         />
-        <button className="fetch-button" onClick={handleFetchWeather}>Search</button>
       </div>
       {/* Dropdown */}
       {suggestions.length > 0 && (
-        <Dropdown
-          suggestions={suggestions}
-          onClickOutside={handleDropdownClickOutside}
-        />
+        <Dropdown suggestions={suggestions} onClickOutside={handleDropdownClickOutside} />
       )}
     </div>
   );
 }
 
 export default WeatherApp;
+
+
+
 
